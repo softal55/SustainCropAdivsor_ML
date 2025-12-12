@@ -1,169 +1,125 @@
-SustainCropAdvisor
+# SustainCropAdvisor
 
-SustainCropAdvisor is an AI-powered crop recommendation system that helps farmers choose the most suitable and sustainable crops based on real soil measurements. This project was developed as part of a final-year Bachelor's thesis in Computer Science. It integrates Machine Learning, Flask backend services, MySQL database design, and a Flutter mobile application.
+**AI-Powered Crop Recommendation System for Sustainable Agriculture**
 
-Overview
+> *Developed as part of a final-year Bachelor's thesis in Computer Science.*
 
-The system analyzes soil and environmental data collected from sensors and predicts the top three optimal crops for a given field. The mobile application allows farmers to define fields on a map, record on-site measurements, and view recommended crops.
+---
 
-Features
+## Overview
 
-Machine Learning
+**SustainCropAdvisor** is an intelligent system designed to help farmers make data-driven decisions. By analyzing real soil and environmental metrics collected from sensors, the system predicts the top three optimal crops for a specific field.
 
-Predicts optimal crops using seven agronomic measurements:
+This project integrates a robust **Machine Learning** pipeline, a **Flask** backend, a **MySQL** database, and a user-friendly **Flutter** mobile application to provide a complete agricultural solution.
 
-Nitrogen (N)
+---
 
-Phosphorus (P)
+## Key Features
 
-Potassium (K)
+### Machine Learning Engine
+* **7-Point Analysis:** Predicts crops based on Nitrogen (N), Phosphorus (P), Potassium (K), pH, Moisture, Temperature, and Rainfall.
+* **High Accuracy:** The final Random Forest model achieves **99.6% accuracy**.
+* **Robustness:** Trained on real agricultural datasets and validated against overfitting using GridSearchCV.
 
-Soil pH
+### Mobile Application (Flutter)
+* **Interactive Maps:** Define fields and locations directly on a map using GPS coordinates.
+* **Instant Analysis:** Input measurements from NPK sensors and get immediate crop recommendations.
+* **History Tracking:** View past predictions and soil health logs to assist with crop rotation.
 
-Soil moisture
+### Backend & Database
+* **Secure API:** Flask-based REST API handling user authentication and data processing.
+* **Data Persistence:** MySQL relational database stores user profiles, geospatial field data, and historical measurements.
 
-Temperature
+---
 
-Rainfall
+## User Interface
 
-Trained on real agricultural datasets
+| **Field Mapping** | **Soil Analysis** | **Prediction Results** |
+|:---:|:---:|:---:|
+| <img src=".github/assets/views/add_field.jpg" width="300" alt="Map View"> | <img src=".github/assets/views/mesure_typing.jpg" width="300" alt="Input Form"> | <img src=".github/assets/views/top3_crops.jpg" width="300" alt="Results"> |
+| *Farmers can define field boundaries on the map* | *Easy input for N-P-K and environmental data* | *Top 3 recommended crops with confidence scores* |
 
-Multiple models evaluated: Random Forest, SVM, Naive Bayes, k-NN
+> **Note:** The mobile interface was developed using **Flutter**, ensuring a smooth experience on both Android and iOS devices.
 
-Random Forest selected as the final model based on performance
+---
 
-Backend (Flask)
+## System Architecture
 
-REST API for:
+The system follows a modular 4-tier architecture:
 
-User authentication
+1.  **Client:** Flutter Mobile App (User Interface)
+2.  **API:** Flask REST Server
+3.  **Processing:** Scikit-learn ML Model
+4.  **Storage:** MySQL Relational Database
 
-Field management
+### Database Schema
+The system uses **MySQL** to manage relational data. The database is structured into five main entities to ensure data integrity and geospatial tracking:
 
-Measurement storage
+* **Users:** Stores authentication data (first name, last name, email, password).
+* **Crop_Fields:** Manages field metadata (name, area, owner).
+* **GPS_Coordinates:** Links specific latitude/longitude points to fields.
+* **Measurements:** Stores the 7 environmental parameters collected from sensors.
+* **Predictions:** Logs the output of the ML model (crop name, confidence score).
 
-Crop prediction
+<img src=".github/assets/database_model.svg" width="500" alt="Map View">
 
-History tracking
+## Machine Learning Details
 
-Integration with the ML model
+### Methodology
+To ensure robustness, the model was trained using the **"Machine Learning in Agriculture"** dataset from Kaggle (~2200 samples).
+* **Validation Strategy:** The data was split into **70% training** and **30% testing**.
+* **Tuning:** Hyperparameters were optimized using **GridSearchCV**.
 
-Communication with MySQL database
+### Data Exploration and Cleaning
+Before training, we performed **Exploratory Data Analysis (EDA)** to understand the data distribution and ensure model reliability:
 
-Database (MySQL)
+* **Class Balance:** The dataset is well balanced across different crop types, ensuring the model does not favor one class over another during training.  
+  <br>
+  <img src=".github/assets/ml/repartition.png" width="500" alt="Class Distribution">
 
-Stores the following:
+* **Feature Distribution:** We analyzed the spread of key features such as pH and Humidity to identify value ranges and potential outliers.  
+  <p>
+    <img src=".github/assets/ml/ph_dist.png" width="350" alt="pH Distribution" />
+    <img src=".github/assets/ml/humidity_dest.png" width="350" alt="Humidity Distribution" /> 
+  </p>
 
-Users
+* **Nutrient Analysis:** We visualized nutrient requirements for different crops. For example, coffee and cotton have distinct Nitrogen footprints compared to legumes like chickpea.  
+  <br>
+  <img src=".github/assets/ml/azote_distribution.png" width="500" alt="Nitrogen Distribution">
 
-Agricultural fields
+### Comparative Analysis
+We evaluated four supervised learning algorithms to identify the most accurate model for this domain. The results below highlight the performance differences:
 
-GPS coordinates
+| Model | Accuracy | Precision | Recall | F1-Score |
+| :--- | :--- | :--- | :--- | :--- |
+| **Random Forest (Selected)** | **0.996** | **0.991** | **0.991** | **0.991** |
+| Naive Bayes | 0.995 | 0.994 | 0.994 | 0.994 |
+| SVM | 0.990 | 0.983 | 0.983 | 0.983 |
+| k-NN | 0.978 | 0.971 | 0.971 | 0.971 |
 
-Soil measurements
+**Why Random Forest?**
+It demonstrated the highest accuracy and stability across different crop classes, proving robust against overfitting compared to other models.
 
-Predictions
+### Confusion Matrix
+The confusion matrix for the Random Forest model demonstrates excellent class separation with minimal misclassification between similar crop types.
 
-Selected crop history
+<img src=".github/assets/ml/confusion_matrix.jpg" width="750" alt="Confusion Matrix" />
 
-Mobile Application (Flutter)
+---
 
-Map-based field creation
+## Technologies Used
 
-Measurement input forms
+| Category | Technologies |
+| :--- | :--- |
+| **Frontend** | ![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=flat&logo=Flutter&logoColor=white) ![Dart](https://img.shields.io/badge/dart-%230175C2.svg?style=flat&logo=dart&logoColor=white) |
+| **Backend** | ![Flask](https://img.shields.io/badge/flask-%23000.svg?style=flat&logo=flask&logoColor=white) ![Python](https://img.shields.io/badge/python-3670A0?style=flat&logo=python&logoColor=ffdd54) |
+| **ML & Data** | ![scikit-learn](https://img.shields.io/badge/scikit--learn-%23F7931E.svg?style=flat&logo=scikit-learn&logoColor=white) ![Pandas](https://img.shields.io/badge/pandas-%23150458.svg?style=flat&logo=pandas&logoColor=white) ![NumPy](https://img.shields.io/badge/numpy-%23013243.svg?style=flat&logo=numpy&logoColor=white) |
+| **Database** | ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=flat&logo=mysql&logoColor=white) |
+| **Tools** | ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=flat&logo=postman&logoColor=white) ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=flat&logo=git&logoColor=white) |
 
-Display of top three predicted crops
+---
 
-Crop history management
+## Authors
 
-(Flutter interface developed by saidi21.)
-
-Machine Learning Details
-
-Dataset
-
-The model was trained using the "Machine Learning in Agriculture" dataset from Kaggle. The dataset contains approximately 2200 samples with various crop-related measurements.
-
-Dataset link: https://www.kaggle.com/datasets/dhamur/machine-learning-in-agriculture
-
-Models Tested
-
-Random Forest
-
-Support Vector Machine (SVM)
-
-Naive Bayes
-
-k-Nearest Neighbors (k-NN)
-
-Model Selection
-
-After evaluating several algorithms, Random Forest was selected due to:
-
-High accuracy (0.996)
-
-High F1-score (0.991)
-
-Stability across different classes
-
-Robustness against overfitting
-
-Hyperparameters were tuned using GridSearchCV. The dataset was split into 70% training and 30% testing.
-
-Architecture
-
-The system architecture consists of:
-
-Flutter application (user interface)
-
-Flask REST API
-
-Machine Learning model (scikit-learn)
-
-MySQL relational database
-
-Workflow:
-
-The user defines a field and enters soil measurements.
-
-Measurements are sent to the Flask backend.
-
-The backend passes them to the ML model.
-
-The model predicts the top three crops.
-
-The backend stores predictions and returns results to the mobile app.
-
-Technologies Used
-
-Machine Learning
-
-Python
-
-Scikit-learn
-
-Pandas
-
-NumPy
-
-Backend
-
-Python Flask
-
-MySQL Connector
-
-REST API architecture
-
-Frontend
-
-Flutter (Dart)
-
-Tools
-
-Git / GitHub
-
-Postman
-
-VS Code
-
-PyCharm
+* **Taleb Sofiane**
+* **Saidi Yacine**
