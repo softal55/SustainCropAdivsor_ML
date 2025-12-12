@@ -121,5 +121,5 @@ The confusion matrix for the Random Forest model demonstrates excellent class se
 
 ## Authors
 
-* **Taleb Sofiane**
-* **Saidi Yacine**
+* **Sofiane Taleb**
+* **Yacine Saidi**
