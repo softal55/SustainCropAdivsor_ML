@@ -67,6 +67,7 @@ The system uses **MySQL** to manage relational data. The database is structured 
 
 ### Methodology
 To ensure robustness, the model was trained using the **"Machine Learning in Agriculture"** dataset from Kaggle (~2200 samples).
+https://www.kaggle.com/datasets/dhamur/machine-learning-in-agriculture
 * **Validation Strategy:** The data was split into **70% training** and **30% testing**.
 * **Tuning:** Hyperparameters were optimized using **GridSearchCV**.
 
